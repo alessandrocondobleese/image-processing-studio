@@ -423,14 +423,15 @@ def __(group_tabs, mo, processor_params_form, processor_radio):
 
 
 @app.cell
-def __(labels_to_proccessors, processor_radio, set_processors):
+def __(GROUPS, active_tab, processor_radio, set_processors):
     def add_processor(values):
+        print(values)
         if values is not None:
             set_processors(
                 lambda prev: prev
                 + [
                     (
-                        labels_to_proccessors[processor_radio.value],
+                        GROUPS[active_tab]["processors"][processor_radio.value],
                         values,
                     )
                 ]
@@ -490,24 +491,6 @@ def __(delete_button, mo, opencv, processed_image, undo_button):
             ),
         ],
         gap=0.75,
-    )
-    return
-
-
-@app.cell
-def __(get_processors, labels_to_proccessors, mo, pandas, stop_condition):
-    mo.stop(stop_condition)
-
-    pandas.DataFrame(
-        [
-            {
-                "processor": list(labels_to_proccessors.keys())[
-                    list(labels_to_proccessors.values()).index(processor)
-                ],
-                "parameters": processor_params,
-            }
-            for (processor, processor_params) in get_processors()
-        ]
     )
     return
 
